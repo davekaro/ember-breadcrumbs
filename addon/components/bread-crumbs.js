@@ -9,7 +9,11 @@ export default Ember.Component.extend({
   }).property("applicationController.currentPath"),
 
   pathNames: Ember.computed.mapBy("handlerInfos", "name"),
-  controllers: Ember.computed.mapBy("handlerInfos", "handler.controller"),
+  controllers: function () {
+    return this.get("handlerInfos").map(function(info) {
+      return info.handler.controller;
+    });
+  }.property('handlerInfos'),
 
   breadCrumbs: (function() {
     var controllers = this.get("controllers");
